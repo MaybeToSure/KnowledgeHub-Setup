@@ -1,4 +1,0 @@
-interface:
-  display_name: "KnowledgeHub Bootstrap"
-  short_description: "在新电脑创建或恢复本地 KnowledgeHub 并验证 Git/LFS 与 Codex"
-  default_prompt: "使用 $knowledge-hub-bootstrap 在这台新电脑上创建或恢复我的 KnowledgeHub。"

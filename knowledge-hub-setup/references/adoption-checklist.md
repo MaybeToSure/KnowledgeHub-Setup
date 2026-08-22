@@ -1,0 +1,49 @@
+# KnowledgeHub 用户采用检查表
+
+## 所有权边界
+
+- 公开模板：只包含框架、规则、Skill、模板和工具。
+- 用户实例：保存采用者自己的资料、笔记、项目入口和版本历史。
+- GitHub 模式：采用者自己的私有仓库是远程基线，不把资料推送到模板仓库。
+
+## 前置软件
+
+Git、Git LFS、Codex 和 Obsidian为基础条件。GitHub 模式还需要 GitHub CLI，并由采用者登录自己的 GitHub 账号。
+
+缺失软件只报告；除非用户明确授权，否则不要自动安装。认证检查不得输出 Token、SSH 私钥或凭据文件内容。
+
+## 推荐采用流程
+
+1. 选择本地路径和实例名称。
+2. 选择 GitHub 私有实例或纯本地实例。
+3. GitHub 模式确认 `<owner>/<repo>` 属于采用者，且可见性为 private。
+4. 运行部署脚本。
+5. 验证 Git、Git LFS、目录结构和仓库健康。
+6. 用 Obsidian 打开实例目录。
+7. 用 Codex 打开同一目录，以自然语言要求仓库内的 `knowledge-hub` Skill 整理资料。
+
+## Obsidian 推荐设置
+
+- 新笔记默认位置：`00-Inbox/Human`。
+- 附件默认位置：`10-Sources/Attachments`。
+- 自动更新内部链接。
+- 链接格式使用相对路径。
+
+## 验收
+
+```powershell
+git -C <知识库路径> status
+git -C <知识库路径> remote -v
+git -C <知识库路径> lfs env
+powershell -ExecutionPolicy Bypass -File <知识库路径>\tools\verify-repository.ps1
+```
+
+GitHub 模式还要确认远程仓库显示为 private。首次放入 PDF、图片或 Office 文件后，再做一次 Git LFS 提交、推送和全新克隆抽查。
+
+## 常见问题
+
+- 目标目录非空：换用空目录，不自动合并。
+- GitHub 仓库名已存在：选择另一个新名称；部署脚本不会复用并覆盖已有仓库。
+- GitHub 认证失败：由采用者运行 `gh auth login`；不要传递 Token 给他人。
+- Git LFS 缺失：安装后重新执行，不能把 LFS 指针当作完整文件。
+- 只想离线使用：选择 Local 模式，之后仍可由用户添加自己的私有远程。

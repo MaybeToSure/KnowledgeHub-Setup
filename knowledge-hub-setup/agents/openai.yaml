@@ -1,0 +1,6 @@
+interface:
+  display_name: "KnowledgeHub Setup"
+  short_description: "帮助其他用户创建并验证其自有的本地或GitHub私有KnowledgeHub"
+  default_prompt: "使用 $knowledge-hub-setup 帮我创建一套属于我自己的 KnowledgeHub。"
+policy:
+  allow_implicit_invocation: true
