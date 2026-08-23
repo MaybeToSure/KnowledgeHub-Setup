@@ -35,6 +35,7 @@ description: 帮助其他用户首次采用 KnowledgeHub，从公开模板创建
 4. 调用 [scripts/setup-knowledgehub.ps1](scripts/setup-knowledgehub.ps1)。
 5. 检查输出中的初始化、健康检查、LFS 和远程归属状态。
 6. 指导用户用 Obsidian 和 Codex 打开同一知识库目录。
+7. 说明后续独立课程、工程、实验、研究或写作仓库默认由实例内的 `knowledge-hub` Skill 根据自然语言创建；人工手工创建后也可要求其审核和登记。
 
 示例：
 
@@ -58,3 +59,4 @@ description: 帮助其他用户首次采用 KnowledgeHub，从公开模板创建
 - Local 模式没有 `origin`，公开模板仅命名为 `framework`。
 - Existing 模式的普通 Git 和 Git LFS 内容均已恢复。
 - 用户知道如何在 Obsidian 和 Codex 中打开实例，以及如何开始使用仓库内的 `knowledge-hub` Skill。
+- 用户知道独立工作仓库位于 KnowledgeHub 之外；未明确授权时不创建远程、不推送。

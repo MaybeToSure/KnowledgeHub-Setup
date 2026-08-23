@@ -21,6 +21,7 @@ Git、Git LFS、Codex 和 Obsidian为基础条件。GitHub 模式还需要 GitHu
 5. 验证 Git、Git LFS、目录结构和仓库健康。
 6. 用 Obsidian 打开实例目录。
 7. 用 Codex 打开同一目录，以自然语言要求仓库内的 `knowledge-hub` Skill 整理资料。
+8. 阅读实例内的 `docs/独立仓库创建与驱动.md`，了解代理创建、人工创建、远程授权和验收标准。
 
 ## Obsidian 推荐设置
 
@@ -47,3 +48,4 @@ GitHub 模式还要确认远程仓库显示为 private。首次放入 PDF、图�
 - GitHub 认证失败：由采用者运行 `gh auth login`；不要传递 Token 给他人。
 - Git LFS 缺失：安装后重新执行，不能把 LFS 指针当作完整文件。
 - 只想离线使用：选择 Local 模式，之后仍可由用户添加自己的私有远程。
+- 不知道是否需要独立仓库：让 Codex 先判断；只有需要独立交付、版本、依赖、权限或复现环境时才创建。

@@ -77,3 +77,23 @@ powershell -ExecutionPolicy Bypass -File `
 脚本不会覆盖非空目录，不接受 URL 内嵌凭据，也不会创建公开的个人知识库。完整检查表见 `knowledge-hub-setup/references/adoption-checklist.md`。
 
 框架来源：[KnowledgeHub Framework](https://github.com/MaybeToSure/KnowledgeHub-Framework)。
+
+## 落地后如何创建独立工作仓库
+
+KnowledgeHub 是长期知识底座；课程、工程、实验、研究和写作任务按需建立同级独立 Git 仓库。默认直接在已打开 KnowledgeHub 的 Codex 中说：
+
+```text
+为“模电原理”创建独立课程仓库，仓库名 analog-electronics，使用默认本地路径；
+在 KnowledgeHub 建立课程入口，暂不创建远程仓库。
+```
+
+Codex 会判断类型，调用实例内的创建工具，生成 `README.md`、`AGENTS.md`、`work.yaml` 和类型目录，初始化 Git，并在 KnowledgeHub 登记入口。未明确要求时不创建远程、不推送；明确要求 GitHub 远程时默认只能创建私有仓库。
+
+人工也可以先手动建立目录和 Git 仓库，再说：
+
+```text
+我手动创建了 D:\GitHub\my-work。请按 KnowledgeHub 独立仓库契约审核、补齐并登记；
+不要创建远程或推送。
+```
+
+两种入口遵守同一规则，完整判断、命令、字段和验收标准见框架内的 `docs/独立仓库创建与驱动.md`。
