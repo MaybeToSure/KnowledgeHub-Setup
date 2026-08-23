@@ -106,16 +106,16 @@ if ($Mode -eq 'GitHub') {
     & gh repo view $GitHubRepository --json nameWithOwner 2>$null | Out-Null
     if ($LASTEXITCODE -eq 0) { throw "GitHub repository already exists: $GitHubRepository" }
     New-PinnedFrameworkClone -RepositoryUrl $templateUrl -Ref $FrameworkRef -Target $Destination -ExpectedVersion $ExpectedFrameworkVersion
-    & gh repo create $GitHubRepository --private
+    & gh repo create $GitHubRepository --private | Out-Null
     if ($LASTEXITCODE -ne 0) { throw 'Could not create the private GitHub repository. It may already exist.' }
     $KnowledgeRepositoryUrl = "https://github.com/$GitHubRepository.git"
     & git -C $Destination remote add origin $KnowledgeRepositoryUrl
     if ($LASTEXITCODE -ne 0) { throw 'The private repository was created, but its origin remote could not be configured.' }
-    & git -C $Destination push -u origin main
+    & git -C $Destination push -u origin main | Out-Null
     if ($LASTEXITCODE -ne 0) { throw 'The private repository was created, but the pinned framework baseline could not be pushed.' }
     $visibility = (& gh repo view $GitHubRepository --json visibility --jq '.visibility').Trim()
     if ($LASTEXITCODE -ne 0 -or $visibility -ne 'PRIVATE') { throw 'The created GitHub repository could not be verified as private.' }
-    & git -C $Destination lfs pull
+    & git -C $Destination lfs pull | Out-Null
     if ($LASTEXITCODE -ne 0) { throw 'Git LFS pull failed.' }
     $lfsPullCompleted = $true
 } elseif ($Mode -eq 'Existing') {
@@ -123,7 +123,7 @@ if ($Mode -eq 'GitHub') {
     Assert-SafeRepositoryUrl -Url $KnowledgeRepositoryUrl
     & git clone -- $KnowledgeRepositoryUrl $Destination
     if ($LASTEXITCODE -ne 0) { throw 'Knowledge repository clone failed.' }
-    & git -C $Destination lfs pull
+    & git -C $Destination lfs pull | Out-Null
     if ($LASTEXITCODE -ne 0) { throw 'Git LFS pull failed.' }
     $lfsPullCompleted = $true
 } else {

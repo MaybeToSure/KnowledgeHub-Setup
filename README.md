@@ -1,6 +1,6 @@
 # KnowledgeHub 通用落地包
 
-当前落地包版本：`2.3.1`，新建实例固定使用 KnowledgeHub Framework `v0.4.1`；Existing 模式支持已经迁移到 Framework `0.4.0` 或更高版本的实例。
+当前落地包版本：`2.3.2`，新建实例固定使用 KnowledgeHub Framework `v0.4.1`；Existing 模式支持已经迁移到 Framework `0.4.0` 或更高版本的实例。
 
 这个仓库面向第一次采用 KnowledgeHub 的其他用户，提供可安装的 Codex Skill、自动部署脚本和人工说明。安装脚本同时安装首次落地用的 `knowledge-hub-setup` 和日常捕获用的 `yunfei-quick-capture`。每位用户创建并拥有自己的知识库实例；公开框架仓库只提供结构、规则和工具，不保存用户资料。
 
