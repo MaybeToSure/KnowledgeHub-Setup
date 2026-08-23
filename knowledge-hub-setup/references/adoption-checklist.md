@@ -21,7 +21,8 @@ Git、Git LFS、Codex 和 Obsidian为基础条件。GitHub 模式还需要 GitHu
 5. 验证 Git、Git LFS、目录结构和仓库健康。
 6. 用 Obsidian 打开实例目录。
 7. 用 Codex 打开同一目录，以自然语言要求仓库内的 `knowledge-hub` Skill 整理资料。
-8. 阅读实例内的 `docs/独立仓库创建与驱动.md`，了解代理创建、人工创建、远程授权和验收标准。
+8. 新建“云飞随手记”专用 Codex 任务并打开同一目录；普通任务聊天不旁路记录。
+9. 阅读实例内的 `docs/整体机制.md` 和 `docs/独立仓库创建与驱动.md`，了解记录、知识、任务与项目边界。
 
 ## Obsidian 推荐设置
 
@@ -29,6 +30,7 @@ Git、Git LFS、Codex 和 Obsidian为基础条件。GitHub 模式还需要 GitHu
 - 附件默认位置：`10-Sources/Attachments`。
 - 自动更新内部链接。
 - 链接格式使用相对路径。
+- 随手记 Markdown 位于 `00-Inbox/Human/Quick-Captures`，附件位于 `10-Sources/Attachments/Quick-Captures`，均可直接浏览和编辑。
 
 ## 验收
 

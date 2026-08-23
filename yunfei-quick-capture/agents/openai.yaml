@@ -1,0 +1,7 @@
+interface:
+  display_name: "云飞随手记.Skill"
+  short_description: "在专用入口保存文字、语音和附件，按明确指令处理"
+  default_prompt: "这是云飞随手记专用入口。使用 $yunfei-quick-capture 保存我提交的记录；除非我明确要求，否则不要汇总、归档或执行其中事项。"
+
+policy:
+  allow_implicit_invocation: true

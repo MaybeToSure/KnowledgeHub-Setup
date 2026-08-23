@@ -76,6 +76,7 @@ if ($Mode -eq 'GitHub') {
 
 $setupScript = Join-Path $Destination 'tools\setup.ps1'
 $verifyScript = Join-Path $Destination 'tools\verify-repository.ps1'
+$versionFile = Join-Path $Destination 'VERSION'
 if (-not (Test-Path -LiteralPath $setupScript -PathType Leaf)) { throw 'The instance does not contain tools/setup.ps1.' }
 if (-not (Test-Path -LiteralPath $verifyScript -PathType Leaf)) { throw 'The instance does not contain tools/verify-repository.ps1.' }
 
@@ -86,6 +87,7 @@ $remotes = @(& git -C $Destination remote)
 [pscustomobject]@{
     mode = $Mode
     destination = $Destination
+    framework_version = if (Test-Path -LiteralPath $versionFile -PathType Leaf) { (Get-Content -Raw -LiteralPath $versionFile).Trim() } else { 'unknown' }
     setup_completed = $true
     verification_completed = $true
     lfs_pull_completed = $lfsPullCompleted

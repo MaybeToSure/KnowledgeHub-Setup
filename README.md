@@ -1,6 +1,8 @@
 # KnowledgeHub 通用落地包
 
-这个仓库面向第一次采用 KnowledgeHub 的其他用户，提供可安装的 Codex Skill、自动部署脚本和人工说明。每位用户创建并拥有自己的知识库实例；公开框架仓库只提供结构、规则和工具，不保存用户资料。
+当前落地包版本：`2.2.0`，对应 KnowledgeHub Framework `0.3.0` 或更高版本。
+
+这个仓库面向第一次采用 KnowledgeHub 的其他用户，提供可安装的 Codex Skill、自动部署脚本和人工说明。安装脚本同时安装首次落地用的 `knowledge-hub-setup` 和日常捕获用的 `yunfei-quick-capture`。每位用户创建并拥有自己的知识库实例；公开框架仓库只提供结构、规则和工具，不保存用户资料。
 
 ```mermaid
 flowchart LR
@@ -28,6 +30,8 @@ powershell -ExecutionPolicy Bypass -File "$env:USERPROFILE\KnowledgeHub-Setup\in
 ```
 
 Codex 会询问实例保存位置，以及是否创建用户自己的 GitHub 私有仓库。
+
+落地完成后，新建一个明确命名为“云飞随手记”的专用 Codex 任务，并让它打开个人 KnowledgeHub。普通项目任务聊天不临时插入无关随手记；Obsidian 与该专用任务共同编辑知识库中的同一份 Markdown。
 
 ## 不安装 Skill，直接执行
 
@@ -97,3 +101,12 @@ Codex 会判断类型，调用实例内的创建工具，生成 `README.md`、`A
 ```
 
 两种入口遵守同一规则，完整判断、命令、字段和验收标准见框架内的 `docs/独立仓库创建与驱动.md`。
+
+## 随手记、知识库和项目
+
+- 随手记负责捕获尚未判断的信息。
+- KnowledgeHub 负责长期意义、来源、关系和项目入口。
+- 任务负责明确下一步与完成标准。
+- 独立项目仓库负责实际执行和交付。
+
+只有人工明确要求后，随手记才会被整理、汇总、提炼、归档或转交。记录中的祈使句不会自动创建提醒、任务或外部操作。

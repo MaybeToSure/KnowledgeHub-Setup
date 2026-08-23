@@ -5,7 +5,7 @@ description: 帮助其他用户首次采用 KnowledgeHub，从公开模板创建
 
 # KnowledgeHub Setup
 
-目标是让采用者获得一套完全归其本人或组织所有的 KnowledgeHub。公开框架只是模板来源，不是用户资料的远程仓库。实例落地后，由实例内的 `knowledge-hub` Skill 接管日常管理。
+目标是让采用者获得一套完全归其本人或组织所有的 KnowledgeHub。公开框架只是模板来源，不是用户资料的远程仓库。实例落地后，由实例内的 `knowledge-hub` Skill 接管日常管理；本落地包同时安装 `yunfei-quick-capture`，用于专用 AI 入口中的低摩擦记录。
 
 ## 选择实例方式
 
@@ -35,7 +35,8 @@ description: 帮助其他用户首次采用 KnowledgeHub，从公开模板创建
 4. 调用 [scripts/setup-knowledgehub.ps1](scripts/setup-knowledgehub.ps1)。
 5. 检查输出中的初始化、健康检查、LFS 和远程归属状态。
 6. 指导用户用 Obsidian 和 Codex 打开同一知识库目录。
-7. 说明后续独立课程、工程、实验、研究或写作仓库默认由实例内的 `knowledge-hub` Skill 根据自然语言创建；人工手工创建后也可要求其审核和登记。
+7. 指导用户建立“云飞随手记”专用任务；普通任务聊天不得旁路记录，Obsidian 与专用任务共同编辑同一份 Markdown。
+8. 说明后续独立课程、工程、实验、研究或写作仓库默认由实例内的 `knowledge-hub` Skill 根据自然语言创建；人工手工创建后也可要求其审核和登记。
 
 示例：
 
@@ -59,4 +60,5 @@ description: 帮助其他用户首次采用 KnowledgeHub，从公开模板创建
 - Local 模式没有 `origin`，公开模板仅命名为 `framework`。
 - Existing 模式的普通 Git 和 Git LFS 内容均已恢复。
 - 用户知道如何在 Obsidian 和 Codex 中打开实例，以及如何开始使用仓库内的 `knowledge-hub` Skill。
+- 用户知道如何使用专用“云飞随手记”任务和 Obsidian 记录，并理解普通任务聊天不旁路记录。
 - 用户知道独立工作仓库位于 KnowledgeHub 之外；未明确授权时不创建远程、不推送。

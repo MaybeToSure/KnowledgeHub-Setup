@@ -5,22 +5,38 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$source = Join-Path $PSScriptRoot 'knowledge-hub-setup'
-$target = Join-Path $TargetRoot 'knowledge-hub-setup'
-if (-not (Test-Path -LiteralPath (Join-Path $source 'SKILL.md') -PathType Leaf)) {
-    throw 'The package is missing knowledge-hub-setup/SKILL.md.'
+$skillNames = @('knowledge-hub-setup', 'yunfei-quick-capture')
+$installPlan = foreach ($skillName in $skillNames) {
+    $source = Join-Path $PSScriptRoot $skillName
+    $target = Join-Path $TargetRoot $skillName
+    if (-not (Test-Path -LiteralPath (Join-Path $source 'SKILL.md') -PathType Leaf)) {
+        throw "The package is missing $skillName/SKILL.md."
+    }
+    [pscustomobject]@{ name = $skillName; source = $source; target = $target }
+}
+
+$existingTargets = @($installPlan | Where-Object { Test-Path -LiteralPath $_.target })
+if ($existingTargets.Count -gt 0 -and -not $Replace) {
+    $paths = ($existingTargets.target -join ', ')
+    throw "Skills already exist: $paths. Re-run with -Replace to install a new version."
 }
 
 New-Item -ItemType Directory -Force -Path $TargetRoot | Out-Null
-if (Test-Path -LiteralPath $target) {
-    if (-not $Replace) { throw "Skill already exists: $target. Re-run with -Replace to install a new version." }
-    $backup = "$target.backup-$(Get-Date -Format 'yyyyMMdd-HHmmss')"
-    Move-Item -LiteralPath $target -Destination $backup
+$backups = [System.Collections.Generic.List[string]]::new()
+$installedTargets = [System.Collections.Generic.List[string]]::new()
+foreach ($item in $installPlan) {
+    if (Test-Path -LiteralPath $item.target) {
+        $backup = "$($item.target).backup-$(Get-Date -Format 'yyyyMMdd-HHmmss')"
+        Move-Item -LiteralPath $item.target -Destination $backup
+        $backups.Add($backup)
+    }
+    Copy-Item -LiteralPath $item.source -Destination $item.target -Recurse
+    $installedTargets.Add($item.target)
 }
 
-Copy-Item -LiteralPath $source -Destination $target -Recurse
 [pscustomobject]@{
     installed = $true
-    target = $target
+    targets = @($installedTargets)
+    backups = @($backups)
     restart_codex = $true
 } | ConvertTo-Json -Depth 5
