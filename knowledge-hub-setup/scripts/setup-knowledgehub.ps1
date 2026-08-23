@@ -7,8 +7,8 @@ param(
     [string]$GitHubRepository,
     [string]$KnowledgeRepositoryUrl,
     [string]$TemplateRepository = 'MaybeToSure/KnowledgeHub-Framework',
-    [string]$FrameworkRef = 'v0.4.1',
-    [string]$ExpectedFrameworkVersion = '0.4.1',
+    [string]$FrameworkRef = 'v0.4.2',
+    [string]$ExpectedFrameworkVersion = '0.4.2',
     [string]$MinimumExistingFrameworkVersion = '0.4.0'
 )
 

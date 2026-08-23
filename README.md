@@ -1,6 +1,6 @@
 # KnowledgeHub 通用落地包
 
-当前落地包版本：`2.3.2`，新建实例固定使用 KnowledgeHub Framework `v0.4.1`；Existing 模式支持已经迁移到 Framework `0.4.0` 或更高版本的实例。
+当前落地包版本：`2.3.3`，新建实例固定使用 KnowledgeHub Framework `v0.4.2`；Existing 模式支持已经迁移到 Framework `0.4.0` 或更高版本的实例。
 
 这个仓库面向第一次采用 KnowledgeHub 的其他用户，提供可安装的 Codex Skill、自动部署脚本和人工说明。安装脚本同时安装首次落地用的 `knowledge-hub-setup` 和日常捕获用的 `yunfei-quick-capture`。每位用户创建并拥有自己的知识库实例；公开框架仓库只提供结构、规则和工具，不保存用户资料。
 
@@ -49,7 +49,7 @@ powershell -ExecutionPolicy Bypass -File `
   -GitHubRepository <你的GitHub账号>/<你的知识库仓库名>
 ```
 
-脚本从固定的 Framework `v0.4.1` 创建一个新的私有仓库；新仓库及其中资料归执行者自己所有，不会因 Framework `main` 后续变化而改变部署结果。
+脚本从固定的 Framework `v0.4.2` 创建一个新的私有仓库；新仓库及其中资料归执行者自己所有，不会因 Framework `main` 后续变化而改变部署结果。
 
 ### 创建纯本地实例
 
@@ -86,7 +86,7 @@ powershell -ExecutionPolicy Bypass -File `
 
 框架来源：[KnowledgeHub Framework](https://github.com/MaybeToSure/KnowledgeHub-Framework)。
 
-手机 ChatGPT + GitHub 随手记是 Framework 中默认关闭的可选扩展。本落地包当前只安装电脑端本地 `yunfei-quick-capture` Skill，不安装手机插件或远程写入工具。
+手机 ChatGPT + GitHub 随手记是 Framework 中默认关闭的可选扩展。本落地包安装电脑端本地 `yunfei-quick-capture` Skill，并提供 [KnowledgeHub-Mobile-Capture](https://github.com/MaybeToSure/KnowledgeHub-Mobile-Capture) 部署入口；它不会静默创建公网服务、OAuth 租户或写入凭据。只有完成该项目的部署与手机验收，实例才能标记为“已启用”。
 
 ## 落地后如何创建独立工作仓库
 

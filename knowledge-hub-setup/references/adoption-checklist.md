@@ -18,7 +18,7 @@ Git、Git LFS、Codex 和 Obsidian为基础条件。GitHub 模式还需要 GitHu
 2. 选择 GitHub 私有实例或纯本地实例。
 3. GitHub 模式确认 `<owner>/<repo>` 属于采用者，且可见性为 private。
 4. 运行部署脚本。
-   新建实例必须显示 Framework `v0.4.1` / `0.4.1`；Existing 模式必须是 Framework `0.4.0` 或更高版本。
+   新建实例必须显示 Framework `v0.4.2` / `0.4.2`；Existing 模式必须是 Framework `0.4.0` 或更高版本。
 5. 验证 Git、Git LFS、目录结构和仓库健康。
 6. 用 Obsidian 打开实例目录。
 7. 用 Codex 打开同一目录，以自然语言要求仓库内的 `knowledge-hub` Skill 整理资料。
@@ -26,6 +26,7 @@ Git、Git LFS、Codex 和 Obsidian为基础条件。GitHub 模式还需要 GitHu
 9. 阅读实例内的 `docs/整体机制.md` 和 `docs/独立仓库创建与驱动.md`，了解记录、知识、任务与项目边界。
 10. 确认 `.knowledge/local-config.json` 中的工作区与知识库路径正确；此文件是设备本地配置，不进入 Git。
 11. Local 模式确认 `main` 没有上游分支，且 `framework` 的 push URL 已禁用。
+12. 如需手机入口，单独采用 `KnowledgeHub-Mobile-Capture`；未完成公网 OAuth、权限和手机实测时保持默认关闭。
 
 ## Obsidian 推荐设置
 
