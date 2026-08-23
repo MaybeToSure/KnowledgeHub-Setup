@@ -18,12 +18,14 @@ Git、Git LFS、Codex 和 Obsidian为基础条件。GitHub 模式还需要 GitHu
 2. 选择 GitHub 私有实例或纯本地实例。
 3. GitHub 模式确认 `<owner>/<repo>` 属于采用者，且可见性为 private。
 4. 运行部署脚本。
+   新建实例必须显示 Framework `v0.4.1` / `0.4.1`；Existing 模式必须是 Framework `0.4.0` 或更高版本。
 5. 验证 Git、Git LFS、目录结构和仓库健康。
 6. 用 Obsidian 打开实例目录。
 7. 用 Codex 打开同一目录，以自然语言要求仓库内的 `knowledge-hub` Skill 整理资料。
 8. 新建“云飞随手记”专用 Codex 任务并打开同一目录；普通任务聊天不旁路记录。
 9. 阅读实例内的 `docs/整体机制.md` 和 `docs/独立仓库创建与驱动.md`，了解记录、知识、任务与项目边界。
 10. 确认 `.knowledge/local-config.json` 中的工作区与知识库路径正确；此文件是设备本地配置，不进入 Git。
+11. Local 模式确认 `main` 没有上游分支，且 `framework` 的 push URL 已禁用。
 
 ## Obsidian 推荐设置
 
@@ -50,5 +52,6 @@ GitHub 模式还要确认远程仓库显示为 private。首次放入 PDF、图�
 - GitHub 仓库名已存在：选择另一个新名称；部署脚本不会复用并覆盖已有仓库。
 - GitHub 认证失败：由采用者运行 `gh auth login`；不要传递 Token 给他人。
 - Git LFS 缺失：安装后重新执行，不能把 LFS 指针当作完整文件。
-- 只想离线使用：选择 Local 模式，之后仍可由用户添加自己的私有远程。
+- 只想部署后离线使用：选择 Local 模式；首次安装仍需联网下载固定 Framework 版本，之后可由用户添加自己的私有远程。
+- Existing 实例缺少 `VERSION`、`framework.manifest.json` 或 `tools/setup.ps1`：这是早期扁平结构，先按 Framework 的升级与迁移文档处理，不能直接恢复。
 - 不知道是否需要独立仓库：让 Codex 先判断；只有需要独立交付、版本、依赖、权限或复现环境时才创建。

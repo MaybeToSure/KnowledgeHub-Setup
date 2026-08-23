@@ -6,7 +6,10 @@ param(
     [string]$WorkspaceRoot,
     [string]$GitHubRepository,
     [string]$KnowledgeRepositoryUrl,
-    [string]$TemplateRepository = 'MaybeToSure/KnowledgeHub-Framework'
+    [string]$TemplateRepository = 'MaybeToSure/KnowledgeHub-Framework',
+    [string]$FrameworkRef = 'v0.4.1',
+    [string]$ExpectedFrameworkVersion = '0.4.1',
+    [string]$MinimumExistingFrameworkVersion = '0.4.0'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -23,6 +26,41 @@ function Assert-SafeRepositoryUrl {
     if ($Url -match '^https?://[^/]+@') {
         throw 'Do not embed credentials in the repository URL. Use a credential manager, GitHub CLI, or SSH.'
     }
+}
+
+function New-PinnedFrameworkClone {
+    param([string]$RepositoryUrl, [string]$Ref, [string]$Target, [string]$ExpectedVersion)
+
+    & git clone --no-checkout -- $RepositoryUrl $Target
+    if ($LASTEXITCODE -ne 0) { throw 'Framework repository clone failed.' }
+    & git -C $Target switch --detach $Ref | Out-Null
+    if ($LASTEXITCODE -ne 0) { throw "Framework ref was not found: '$Ref'." }
+
+    $currentBranch = (@(& git -C $Target branch --show-current) -join '').Trim()
+    if (-not $currentBranch) {
+        & git -C $Target show-ref --verify --quiet refs/heads/main
+        if ($LASTEXITCODE -eq 0) {
+            & git -C $Target branch -f main HEAD | Out-Null
+            if ($LASTEXITCODE -eq 0) { & git -C $Target switch main | Out-Null }
+        } else {
+            & git -C $Target switch -c main | Out-Null
+        }
+    } elseif ($currentBranch -ne 'main') {
+        & git -C $Target branch -M main
+    }
+    if ($LASTEXITCODE -ne 0) { throw 'Could not create the local main branch from the pinned framework release.' }
+    $clonedVersionFile = Join-Path $Target 'VERSION'
+    if (-not (Test-Path -LiteralPath $clonedVersionFile -PathType Leaf)) { throw 'The pinned framework does not contain VERSION.' }
+    $clonedVersion = (Get-Content -Raw -LiteralPath $clonedVersionFile).Trim()
+    if ($clonedVersion -ne $ExpectedVersion) {
+        throw "Framework ref '$Ref' produced VERSION '$clonedVersion'; expected '$ExpectedVersion'."
+    }
+    & git -C $Target remote rename origin framework
+    if ($LASTEXITCODE -ne 0) { throw 'Could not rename the framework remote.' }
+    & git -C $Target config --unset-all branch.main.remote 2>$null
+    & git -C $Target config --unset-all branch.main.merge 2>$null
+    & git -C $Target remote set-url --push framework DISABLED
+    if ($LASTEXITCODE -ne 0) { throw 'Could not disable pushes to the framework remote.' }
 }
 
 Assert-Command -Name 'git' -InstallHint 'Install Git, then run this script again.'
@@ -56,6 +94,8 @@ if (Test-Path -LiteralPath $Destination) {
 }
 
 $lfsPullCompleted = $false
+$templateUrl = "https://github.com/$TemplateRepository.git"
+Assert-SafeRepositoryUrl -Url $templateUrl
 if ($Mode -eq 'GitHub') {
     Assert-Command -Name 'gh' -InstallHint 'Install GitHub CLI and authenticate, then run this script again.'
     if ($GitHubRepository -notmatch '^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$') {
@@ -63,11 +103,18 @@ if ($Mode -eq 'GitHub') {
     }
     & gh auth status | Out-Null
     if ($LASTEXITCODE -ne 0) { throw 'GitHub CLI is not authenticated.' }
-    & gh repo create $GitHubRepository --private --template $TemplateRepository
+    & gh repo view $GitHubRepository --json nameWithOwner 2>$null | Out-Null
+    if ($LASTEXITCODE -eq 0) { throw "GitHub repository already exists: $GitHubRepository" }
+    New-PinnedFrameworkClone -RepositoryUrl $templateUrl -Ref $FrameworkRef -Target $Destination -ExpectedVersion $ExpectedFrameworkVersion
+    & gh repo create $GitHubRepository --private
     if ($LASTEXITCODE -ne 0) { throw 'Could not create the private GitHub repository. It may already exist.' }
     $KnowledgeRepositoryUrl = "https://github.com/$GitHubRepository.git"
-    & git clone -- $KnowledgeRepositoryUrl $Destination
-    if ($LASTEXITCODE -ne 0) { throw 'The new private repository was created, but cloning it failed.' }
+    & git -C $Destination remote add origin $KnowledgeRepositoryUrl
+    if ($LASTEXITCODE -ne 0) { throw 'The private repository was created, but its origin remote could not be configured.' }
+    & git -C $Destination push -u origin main
+    if ($LASTEXITCODE -ne 0) { throw 'The private repository was created, but the pinned framework baseline could not be pushed.' }
+    $visibility = (& gh repo view $GitHubRepository --json visibility --jq '.visibility').Trim()
+    if ($LASTEXITCODE -ne 0 -or $visibility -ne 'PRIVATE') { throw 'The created GitHub repository could not be verified as private.' }
     & git -C $Destination lfs pull
     if ($LASTEXITCODE -ne 0) { throw 'Git LFS pull failed.' }
     $lfsPullCompleted = $true
@@ -80,12 +127,7 @@ if ($Mode -eq 'GitHub') {
     if ($LASTEXITCODE -ne 0) { throw 'Git LFS pull failed.' }
     $lfsPullCompleted = $true
 } else {
-    $templateUrl = "https://github.com/$TemplateRepository.git"
-    Assert-SafeRepositoryUrl -Url $templateUrl
-    & git clone -- $templateUrl $Destination
-    if ($LASTEXITCODE -ne 0) { throw 'Framework clone failed.' }
-    & git -C $Destination remote rename origin framework
-    if ($LASTEXITCODE -ne 0) { throw 'Could not rename the framework remote.' }
+    New-PinnedFrameworkClone -RepositoryUrl $templateUrl -Ref $FrameworkRef -Target $Destination -ExpectedVersion $ExpectedFrameworkVersion
 }
 
 $setupScript = Join-Path $Destination 'tools\setup.ps1'
@@ -93,6 +135,16 @@ $verifyScript = Join-Path $Destination 'tools\verify-repository.ps1'
 $versionFile = Join-Path $Destination 'VERSION'
 if (-not (Test-Path -LiteralPath $setupScript -PathType Leaf)) { throw 'The instance does not contain tools/setup.ps1.' }
 if (-not (Test-Path -LiteralPath $verifyScript -PathType Leaf)) { throw 'The instance does not contain tools/verify-repository.ps1.' }
+if (-not (Test-Path -LiteralPath $versionFile -PathType Leaf)) { throw 'The instance does not contain VERSION.' }
+$frameworkVersion = (Get-Content -Raw -LiteralPath $versionFile).Trim()
+if ($Mode -eq 'Existing') {
+    try { $parsedFrameworkVersion = [version]$frameworkVersion } catch { throw "The existing instance has an invalid VERSION: $frameworkVersion" }
+    if ($parsedFrameworkVersion -lt [version]$MinimumExistingFrameworkVersion) {
+        throw "Existing mode requires KnowledgeHub Framework $MinimumExistingFrameworkVersion or newer. Migrate the legacy instance first."
+    }
+} elseif ($frameworkVersion -ne $ExpectedFrameworkVersion) {
+    throw "Framework ref '$FrameworkRef' produced VERSION '$frameworkVersion'; expected '$ExpectedFrameworkVersion'."
+}
 
 & $setupScript -Root $Destination -WorkspaceRoot $WorkspaceRoot | Out-Null
 & $verifyScript -Root $Destination | Out-Null
@@ -102,7 +154,8 @@ $remotes = @(& git -C $Destination remote)
     mode = $Mode
     workspace_root = $WorkspaceRoot
     destination = $Destination
-    framework_version = if (Test-Path -LiteralPath $versionFile -PathType Leaf) { (Get-Content -Raw -LiteralPath $versionFile).Trim() } else { 'unknown' }
+    framework_ref = if ($Mode -eq 'Existing') { $null } else { $FrameworkRef }
+    framework_version = $frameworkVersion
     setup_completed = $true
     verification_completed = $true
     lfs_pull_completed = $lfsPullCompleted

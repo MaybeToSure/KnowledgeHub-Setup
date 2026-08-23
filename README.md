@@ -1,13 +1,13 @@
 # KnowledgeHub 通用落地包
 
-当前落地包版本：`2.3.0`，对应 KnowledgeHub Framework `0.4.0` 或更高版本。
+当前落地包版本：`2.3.1`，新建实例固定使用 KnowledgeHub Framework `v0.4.1`；Existing 模式支持已经迁移到 Framework `0.4.0` 或更高版本的实例。
 
 这个仓库面向第一次采用 KnowledgeHub 的其他用户，提供可安装的 Codex Skill、自动部署脚本和人工说明。安装脚本同时安装首次落地用的 `knowledge-hub-setup` 和日常捕获用的 `yunfei-quick-capture`。每位用户创建并拥有自己的知识库实例；公开框架仓库只提供结构、规则和工具，不保存用户资料。
 
 ```mermaid
 flowchart LR
     A["新用户"] --> B{"选择实例方式"}
-    B -->|"推荐"| C["从模板创建自己的 GitHub 私有仓库"]
+    B -->|"推荐"| C["从固定框架版本创建自己的 GitHub 私有仓库"]
     B -->|"纯本地"| D["创建无个人远程的本地实例"]
     B -->|"已有实例"| E["连接并恢复自己的仓库"]
     C --> F["初始化与健康检查"]
@@ -49,7 +49,7 @@ powershell -ExecutionPolicy Bypass -File `
   -GitHubRepository <你的GitHub账号>/<你的知识库仓库名>
 ```
 
-脚本使用公开模板创建一个新的私有仓库；新仓库及其中资料归执行者自己所有。
+脚本从固定的 Framework `v0.4.1` 创建一个新的私有仓库；新仓库及其中资料归执行者自己所有，不会因 Framework `main` 后续变化而改变部署结果。
 
 ### 创建纯本地实例
 
@@ -60,9 +60,11 @@ powershell -ExecutionPolicy Bypass -File `
   -WorkspaceRoot "$env:USERPROFILE\KnowledgeHub-Workspace"
 ```
 
-纯本地模式不会创建个人远程仓库。公开框架远程只保留为只读意义上的 `framework`。
+纯本地模式不会创建个人远程仓库。公开框架远程保留为 `framework`，脚本会禁用其推送地址并取消分支跟踪，防止资料误推到公共框架。首次部署仍需要联网下载固定版本，部署完成后可以离线使用。
 
 ### 使用已有的个人实例
+
+Existing 模式用于恢复已经采用 Framework `0.4.0` 或更高版本、包含 `VERSION`、`framework.manifest.json` 和 `tools/setup.ps1` 的实例；它不是早期扁平目录的自动迁移器。
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File `
@@ -83,6 +85,8 @@ powershell -ExecutionPolicy Bypass -File `
 脚本不会覆盖非空目录，不接受 URL 内嵌凭据，也不会创建公开的个人知识库。完整检查表见 `knowledge-hub-setup/references/adoption-checklist.md`。
 
 框架来源：[KnowledgeHub Framework](https://github.com/MaybeToSure/KnowledgeHub-Framework)。
+
+手机 ChatGPT + GitHub 随手记是 Framework 中默认关闭的可选扩展。本落地包当前只安装电脑端本地 `yunfei-quick-capture` Skill，不安装手机插件或远程写入工具。
 
 ## 落地后如何创建独立工作仓库
 

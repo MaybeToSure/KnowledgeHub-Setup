@@ -9,9 +9,9 @@ description: 帮助其他用户首次采用 KnowledgeHub，从公开模板创建
 
 ## 选择实例方式
 
-- `GitHub`：推荐。使用公开模板创建采用者自己的 GitHub 私有仓库，然后克隆到本地。
-- `Local`：只创建本地实例，不创建采用者的远程仓库。
-- `Existing`：连接采用者已经拥有的知识库仓库。
+- `GitHub`：推荐。从固定 Framework 发布版本创建采用者自己的 GitHub 私有仓库。
+- `Local`：从固定 Framework 发布版本创建本地实例，不创建采用者的远程仓库，并禁用框架远程推送。
+- `Existing`：连接已经采用 Framework `0.4.0` 或更高版本的个人实例；不负责迁移早期扁平目录。
 
 执行前确认工作区根目录和实例方式。工作区统一称为 `KnowledgeHub-Workspace`，默认位于 `%USERPROFILE%\KnowledgeHub-Workspace`；知识库固定为 `<WorkspaceRoot>\KnowledgeHub`，独立仓库默认与它同级。GitHub 模式还需确认采用者自己的 `<owner>/<repo>`；该参数本身即是创建私有仓库的明确目标，但执行前仍应向用户复述仓库名和 `private` 可见性。
 
@@ -26,6 +26,8 @@ description: 帮助其他用户首次采用 KnowledgeHub，从公开模板创建
 - 不自动安装系统软件，不改变全局 Git 配置。
 - 不把“克隆成功”当作落地完成；必须运行实例自带的初始化和健康检查。
 - Existing 模式必须拉取 Git LFS 对象。
+- 新建实例必须使用脚本固定的 Framework 标签和预期版本，不得静默跟随可变的 `main`。
+- Local 模式必须禁用 `framework` 的推送地址并取消 `main` 对它的跟踪。
 
 ## 工作流
 
@@ -59,7 +61,9 @@ description: 帮助其他用户首次采用 KnowledgeHub，从公开模板创建
 - `.knowledge/local-config.json` 正确记录工作区、知识库和独立仓库根目录，且该设备配置不进入 Git。
 - GitHub 模式的 `origin` 指向采用者自己的私有仓库。
 - Local 模式没有 `origin`，公开模板仅命名为 `framework`。
-- Existing 模式的普通 Git 和 Git LFS 内容均已恢复。
+- Local 模式的 `framework` 远程不能接收推送，`main` 不跟踪该远程。
+- Existing 模式的普通 Git 和 Git LFS 内容均已恢复，且实例版本满足最低兼容版本。
 - 用户知道如何在 Obsidian 和 Codex 中打开实例，以及如何开始使用仓库内的 `knowledge-hub` Skill。
 - 用户知道如何使用专用“云飞随手记”任务和 Obsidian 记录，并理解普通任务聊天不旁路记录。
 - 用户知道独立工作仓库位于 KnowledgeHub 之外；未明确授权时不创建远程、不推送。
+- 用户知道 Setup 不包含手机 ChatGPT 插件或远程写入工具；移动端入口默认未启用。
