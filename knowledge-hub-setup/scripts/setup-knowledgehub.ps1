@@ -3,6 +3,7 @@ param(
     [ValidateSet('GitHub', 'Local', 'Existing')]
     [string]$Mode = 'Local',
     [string]$Destination,
+    [string]$WorkspaceRoot,
     [string]$GitHubRepository,
     [string]$KnowledgeRepositoryUrl,
     [string]$TemplateRepository = 'MaybeToSure/KnowledgeHub-Framework'
@@ -28,11 +29,24 @@ Assert-Command -Name 'git' -InstallHint 'Install Git, then run this script again
 & git lfs version | Out-Null
 if ($LASTEXITCODE -ne 0) { throw 'Git LFS is required. Install Git LFS, then run this script again.' }
 
+if (-not $WorkspaceRoot) {
+    if ($Destination) {
+        $WorkspaceRoot = Split-Path -Parent ([IO.Path]::GetFullPath($Destination))
+    } elseif ($env:KNOWLEDGE_HUB_WORKSPACE_ROOT) {
+        $WorkspaceRoot = $env:KNOWLEDGE_HUB_WORKSPACE_ROOT
+    } else {
+        $WorkspaceRoot = Join-Path $env:USERPROFILE 'KnowledgeHub-Workspace'
+    }
+}
+$WorkspaceRoot = [IO.Path]::GetFullPath($WorkspaceRoot)
 if (-not $Destination) {
-    $documents = [Environment]::GetFolderPath('MyDocuments')
-    $Destination = Join-Path $documents 'KnowledgeHub'
+    $Destination = Join-Path $WorkspaceRoot 'KnowledgeHub'
 }
 $Destination = [IO.Path]::GetFullPath($Destination)
+$expectedDestination = [IO.Path]::GetFullPath((Join-Path $WorkspaceRoot 'KnowledgeHub'))
+if (-not $Destination.Equals($expectedDestination, [StringComparison]::OrdinalIgnoreCase)) {
+    throw "Destination must be <WorkspaceRoot>\KnowledgeHub. Destination: $Destination; WorkspaceRoot: $WorkspaceRoot"
+}
 if (Test-Path -LiteralPath $Destination) {
     if (@(Get-ChildItem -LiteralPath $Destination -Force -ErrorAction Stop).Count -gt 0) {
         throw "Destination is not empty: $Destination"
@@ -80,12 +94,13 @@ $versionFile = Join-Path $Destination 'VERSION'
 if (-not (Test-Path -LiteralPath $setupScript -PathType Leaf)) { throw 'The instance does not contain tools/setup.ps1.' }
 if (-not (Test-Path -LiteralPath $verifyScript -PathType Leaf)) { throw 'The instance does not contain tools/verify-repository.ps1.' }
 
-& $setupScript -Root $Destination | Out-Null
+& $setupScript -Root $Destination -WorkspaceRoot $WorkspaceRoot | Out-Null
 & $verifyScript -Root $Destination | Out-Null
 
 $remotes = @(& git -C $Destination remote)
 [pscustomobject]@{
     mode = $Mode
+    workspace_root = $WorkspaceRoot
     destination = $Destination
     framework_version = if (Test-Path -LiteralPath $versionFile -PathType Leaf) { (Get-Content -Raw -LiteralPath $versionFile).Trim() } else { 'unknown' }
     setup_completed = $true

@@ -13,7 +13,7 @@ description: 帮助其他用户首次采用 KnowledgeHub，从公开模板创建
 - `Local`：只创建本地实例，不创建采用者的远程仓库。
 - `Existing`：连接采用者已经拥有的知识库仓库。
 
-执行前确认目标目录和实例方式。GitHub 模式还需确认采用者自己的 `<owner>/<repo>`；该参数本身即是创建私有仓库的明确目标，但执行前仍应向用户复述仓库名和 `private` 可见性。
+执行前确认工作区根目录和实例方式。工作区统一称为 `KnowledgeHub-Workspace`，默认位于 `%USERPROFILE%\KnowledgeHub-Workspace`；知识库固定为 `<WorkspaceRoot>\KnowledgeHub`，独立仓库默认与它同级。GitHub 模式还需确认采用者自己的 `<owner>/<repo>`；该参数本身即是创建私有仓库的明确目标，但执行前仍应向用户复述仓库名和 `private` 可见性。
 
 需要前置软件、Obsidian 设置、验收或故障处理时，读取 [references/adoption-checklist.md](references/adoption-checklist.md)。
 
@@ -31,7 +31,7 @@ description: 帮助其他用户首次采用 KnowledgeHub，从公开模板创建
 
 1. 只读检查操作系统、可用目录、Git、Git LFS、Codex、Obsidian；GitHub 模式还要检查 `gh auth status`，但不得输出凭据。
 2. 让用户选择 `GitHub`、`Local` 或 `Existing`。
-3. 确认目标路径。不要假定采用者使用特定盘符；未指定时推荐用户文档目录下的 `KnowledgeHub`。
+3. 确认 `WorkspaceRoot`。不要假定采用者使用特定盘符；未指定时使用 `%USERPROFILE%\KnowledgeHub-Workspace`，再将实例放到其下的 `KnowledgeHub`。
 4. 调用 [scripts/setup-knowledgehub.ps1](scripts/setup-knowledgehub.ps1)。
 5. 检查输出中的初始化、健康检查、LFS 和远程归属状态。
 6. 指导用户用 Obsidian 和 Codex 打开同一知识库目录。
@@ -43,19 +43,20 @@ description: 帮助其他用户首次采用 KnowledgeHub，从公开模板创建
 ```powershell
 # 创建采用者自己的 GitHub 私有实例
 .\scripts\setup-knowledgehub.ps1 -Mode GitHub `
-  -GitHubRepository <owner>/<repo> -Destination <本地目录>
+  -GitHubRepository <owner>/<repo> -WorkspaceRoot <工作区根目录>
 
 # 纯本地实例
-.\scripts\setup-knowledgehub.ps1 -Mode Local -Destination <本地目录>
+.\scripts\setup-knowledgehub.ps1 -Mode Local -WorkspaceRoot <工作区根目录>
 
 # 连接采用者已有实例
 .\scripts\setup-knowledgehub.ps1 -Mode Existing `
-  -KnowledgeRepositoryUrl <仓库地址> -Destination <本地目录>
+  -KnowledgeRepositoryUrl <仓库地址> -WorkspaceRoot <工作区根目录>
 ```
 
 ## 完成标准
 
 - 采用者拥有独立知识库实例，且目标目录是健康的 Git 仓库。
+- `.knowledge/local-config.json` 正确记录工作区、知识库和独立仓库根目录，且该设备配置不进入 Git。
 - GitHub 模式的 `origin` 指向采用者自己的私有仓库。
 - Local 模式没有 `origin`，公开模板仅命名为 `framework`。
 - Existing 模式的普通 Git 和 Git LFS 内容均已恢复。

@@ -14,7 +14,7 @@ Git、Git LFS、Codex 和 Obsidian为基础条件。GitHub 模式还需要 GitHu
 
 ## 推荐采用流程
 
-1. 选择本地路径和实例名称。
+1. 选择 `WorkspaceRoot`；默认 `%USERPROFILE%\KnowledgeHub-Workspace`，KnowledgeHub 实例固定在其下的 `KnowledgeHub`。
 2. 选择 GitHub 私有实例或纯本地实例。
 3. GitHub 模式确认 `<owner>/<repo>` 属于采用者，且可见性为 private。
 4. 运行部署脚本。
@@ -23,6 +23,7 @@ Git、Git LFS、Codex 和 Obsidian为基础条件。GitHub 模式还需要 GitHu
 7. 用 Codex 打开同一目录，以自然语言要求仓库内的 `knowledge-hub` Skill 整理资料。
 8. 新建“云飞随手记”专用 Codex 任务并打开同一目录；普通任务聊天不旁路记录。
 9. 阅读实例内的 `docs/整体机制.md` 和 `docs/独立仓库创建与驱动.md`，了解记录、知识、任务与项目边界。
+10. 确认 `.knowledge/local-config.json` 中的工作区与知识库路径正确；此文件是设备本地配置，不进入 Git。
 
 ## Obsidian 推荐设置
 

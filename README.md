@@ -1,6 +1,6 @@
 # KnowledgeHub 通用落地包
 
-当前落地包版本：`2.2.0`，对应 KnowledgeHub Framework `0.3.0` 或更高版本。
+当前落地包版本：`2.3.0`，对应 KnowledgeHub Framework `0.4.0` 或更高版本。
 
 这个仓库面向第一次采用 KnowledgeHub 的其他用户，提供可安装的 Codex Skill、自动部署脚本和人工说明。安装脚本同时安装首次落地用的 `knowledge-hub-setup` 和日常捕获用的 `yunfei-quick-capture`。每位用户创建并拥有自己的知识库实例；公开框架仓库只提供结构、规则和工具，不保存用户资料。
 
@@ -31,6 +31,8 @@ powershell -ExecutionPolicy Bypass -File "$env:USERPROFILE\KnowledgeHub-Setup\in
 
 Codex 会询问实例保存位置，以及是否创建用户自己的 GitHub 私有仓库。
 
+新用户的框架工作区默认位于 `%USERPROFILE%\KnowledgeHub-Workspace`，知识库固定为其中的 `KnowledgeHub`。可以自定义盘符或父路径，但不使用 `GitHub` 作为框架本地根目录名称。
+
 落地完成后，新建一个明确命名为“云飞随手记”的专用 Codex 任务，并让它打开个人 KnowledgeHub。普通项目任务聊天不临时插入无关随手记；Obsidian 与该专用任务共同编辑知识库中的同一份 Markdown。
 
 ## 不安装 Skill，直接执行
@@ -43,7 +45,7 @@ Codex 会询问实例保存位置，以及是否创建用户自己的 GitHub 私
 powershell -ExecutionPolicy Bypass -File `
   "$env:USERPROFILE\KnowledgeHub-Setup\knowledge-hub-setup\scripts\setup-knowledgehub.ps1" `
   -Mode GitHub `
-  -Destination "$env:USERPROFILE\Documents\KnowledgeHub" `
+  -WorkspaceRoot "$env:USERPROFILE\KnowledgeHub-Workspace" `
   -GitHubRepository <你的GitHub账号>/<你的知识库仓库名>
 ```
 
@@ -55,7 +57,7 @@ powershell -ExecutionPolicy Bypass -File `
 powershell -ExecutionPolicy Bypass -File `
   "$env:USERPROFILE\KnowledgeHub-Setup\knowledge-hub-setup\scripts\setup-knowledgehub.ps1" `
   -Mode Local `
-  -Destination "$env:USERPROFILE\Documents\KnowledgeHub"
+  -WorkspaceRoot "$env:USERPROFILE\KnowledgeHub-Workspace"
 ```
 
 纯本地模式不会创建个人远程仓库。公开框架远程只保留为只读意义上的 `framework`。
@@ -66,7 +68,7 @@ powershell -ExecutionPolicy Bypass -File `
 powershell -ExecutionPolicy Bypass -File `
   "$env:USERPROFILE\KnowledgeHub-Setup\knowledge-hub-setup\scripts\setup-knowledgehub.ps1" `
   -Mode Existing `
-  -Destination "$env:USERPROFILE\Documents\KnowledgeHub" `
+  -WorkspaceRoot "$env:USERPROFILE\KnowledgeHub-Workspace" `
   -KnowledgeRepositoryUrl <用户自己的仓库地址>
 ```
 
@@ -96,7 +98,7 @@ Codex 会判断类型，调用实例内的创建工具，生成 `README.md`、`A
 人工也可以先手动建立目录和 Git 仓库，再说：
 
 ```text
-我手动创建了 D:\GitHub\my-work。请按 KnowledgeHub 独立仓库契约审核、补齐并登记；
+我手动创建了 D:\KnowledgeHub-Workspace\my-work。请按 KnowledgeHub 独立仓库契约审核、补齐并登记；
 不要创建远程或推送。
 ```
 
