@@ -1,6 +1,6 @@
 # KnowledgeHub 通用落地包
 
-当前落地包版本：`2.5.0`，新建实例固定使用 KnowledgeHub Framework `v0.6.0`；Existing 模式支持已经迁移到 Framework `0.4.0` 或更高版本的实例。
+当前落地包版本：`2.5.1`，新建实例固定使用 KnowledgeHub Framework `v0.6.1`；Existing 模式支持已经迁移到 Framework `0.4.0` 或更高版本的实例。
 
 这个仓库面向第一次采用 KnowledgeHub 的其他用户，提供可安装的 Codex Skill、自动部署脚本和人工说明。安装脚本同时安装首次落地用的 `knowledge-hub-setup` 和日常捕获用的 `yunfei-quick-capture`。每位用户创建并拥有自己的知识库实例；公开框架仓库只提供结构、规则和工具，不保存用户资料。
 
@@ -49,7 +49,7 @@ powershell -ExecutionPolicy Bypass -File `
   -GitHubRepository <你的GitHub账号>/<你的知识库仓库名>
 ```
 
-脚本从固定的 Framework `v0.6.0` 创建一个新的私有仓库；新仓库及其中资料归执行者自己所有，不会因 Framework `main` 后续变化而改变部署结果。
+脚本从固定的 Framework `v0.6.1` 创建一个新的私有仓库；新仓库及其中资料归执行者自己所有，不会因 Framework `main` 后续变化而改变部署结果。
 
 ### 创建纯本地实例
 
