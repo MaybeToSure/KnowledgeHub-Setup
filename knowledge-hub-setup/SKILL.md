@@ -36,7 +36,7 @@ description: 帮助其他用户首次采用 KnowledgeHub，从公开模板创建
 3. 确认 `WorkspaceRoot`。不要假定采用者使用特定盘符；未指定时使用 `%USERPROFILE%\KnowledgeHub-Workspace`，再将实例放到其下的 `KnowledgeHub`。
 4. 调用 [scripts/setup-knowledgehub.ps1](scripts/setup-knowledgehub.ps1)。
 5. 检查输出中的初始化、健康检查、LFS 和远程归属状态。
-6. 指导用户用 Obsidian 和 Codex 打开同一知识库目录。
+6. 指导用户用 Obsidian 打开 `WorkspaceRoot`，用 Codex 打开 KnowledgeHub；确认 `_Dashboard/工作区总览.md` 已生成。
 7. 指导用户建立“云飞随手记”专用任务；普通任务聊天不得旁路记录，Obsidian 与专用任务共同编辑同一份 Markdown。
 8. 说明后续独立课程、工程、实验、研究或写作仓库默认由实例内的 `knowledge-hub` Skill 根据自然语言创建；人工手工创建后也可要求其审核和登记。
 
@@ -63,7 +63,7 @@ description: 帮助其他用户首次采用 KnowledgeHub，从公开模板创建
 - Local 模式没有 `origin`，公开模板仅命名为 `framework`。
 - Local 模式的 `framework` 远程不能接收推送，`main` 不跟踪该远程。
 - Existing 模式的普通 Git 和 Git LFS 内容均已恢复，且实例版本满足最低兼容版本。
-- 用户知道如何在 Obsidian 和 Codex 中打开实例，以及如何开始使用仓库内的 `knowledge-hub` Skill。
+- 用户知道如何在 Obsidian 中打开工作区、在 Codex 中打开 KnowledgeHub，以及如何更新全局总览和使用仓库内的 `knowledge-hub` Skill。
 - 用户知道如何使用专用“云飞随手记”任务和 Obsidian 记录，并理解普通任务聊天不旁路记录。
 - 用户知道独立工作仓库位于 KnowledgeHub 之外；未明确授权时不创建远程、不推送。
 - 用户知道 Setup 不包含手机 ChatGPT 插件或远程写入工具；移动端入口默认未启用。

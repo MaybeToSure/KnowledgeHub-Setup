@@ -1,6 +1,6 @@
 # KnowledgeHub 通用落地包
 
-当前落地包版本：`2.3.3`，新建实例固定使用 KnowledgeHub Framework `v0.4.2`；Existing 模式支持已经迁移到 Framework `0.4.0` 或更高版本的实例。
+当前落地包版本：`2.4.0`，新建实例固定使用 KnowledgeHub Framework `v0.5.1`；Existing 模式支持已经迁移到 Framework `0.4.0` 或更高版本的实例。
 
 这个仓库面向第一次采用 KnowledgeHub 的其他用户，提供可安装的 Codex Skill、自动部署脚本和人工说明。安装脚本同时安装首次落地用的 `knowledge-hub-setup` 和日常捕获用的 `yunfei-quick-capture`。每位用户创建并拥有自己的知识库实例；公开框架仓库只提供结构、规则和工具，不保存用户资料。
 
@@ -33,7 +33,7 @@ Codex 会询问实例保存位置，以及是否创建用户自己的 GitHub 私
 
 新用户的框架工作区默认位于 `%USERPROFILE%\KnowledgeHub-Workspace`，知识库固定为其中的 `KnowledgeHub`。可以自定义盘符或父路径，但不使用 `GitHub` 作为框架本地根目录名称。
 
-落地完成后，新建一个明确命名为“云飞随手记”的专用 Codex 任务，并让它打开个人 KnowledgeHub。普通项目任务聊天不临时插入无关随手记；Obsidian 与该专用任务共同编辑知识库中的同一份 Markdown。
+落地完成后，推荐用 Obsidian 打开整个 `WorkspaceRoot`，从 `KnowledgeHub/_Dashboard/工作区总览.md` 浏览 KnowledgeHub 和受管理项目仓库。新建一个明确命名为“云飞随手记”的专用 Codex 任务并打开个人 KnowledgeHub；普通项目任务聊天不临时插入无关随手记。
 
 ## 不安装 Skill，直接执行
 
@@ -49,7 +49,7 @@ powershell -ExecutionPolicy Bypass -File `
   -GitHubRepository <你的GitHub账号>/<你的知识库仓库名>
 ```
 
-脚本从固定的 Framework `v0.4.2` 创建一个新的私有仓库；新仓库及其中资料归执行者自己所有，不会因 Framework `main` 后续变化而改变部署结果。
+脚本从固定的 Framework `v0.5.1` 创建一个新的私有仓库；新仓库及其中资料归执行者自己所有，不会因 Framework `main` 后续变化而改变部署结果。
 
 ### 创建纯本地实例
 
