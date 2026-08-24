@@ -36,7 +36,7 @@ description: 帮助其他用户首次采用 KnowledgeHub，从公开模板创建
 3. 确认 `WorkspaceRoot`。不要假定采用者使用特定盘符；未指定时使用 `%USERPROFILE%\KnowledgeHub-Workspace`，再将实例放到其下的 `KnowledgeHub`。
 4. 调用 [scripts/setup-knowledgehub.ps1](scripts/setup-knowledgehub.ps1)。
 5. 检查输出中的初始化、健康检查、LFS 和远程归属状态。
-6. 指导用户用 Obsidian 打开 `WorkspaceRoot`，用 Codex 打开 KnowledgeHub；确认 `_Dashboard/工作区总览.md` 已生成。
+6. 指导用户用 Obsidian 打开 `WorkspaceRoot`，用 Codex 打开 KnowledgeHub；确认 `_Dashboard/工作区总览-自动生成.md` 与 `工作区总览-手动维护.md` 已生成。
 7. 指导用户建立“云飞随手记”专用任务；普通任务聊天不得旁路记录，Obsidian 与专用任务共同编辑同一份 Markdown。
 8. 说明后续独立课程、工程、实验、研究或写作仓库默认由实例内的 `knowledge-hub` Skill 根据自然语言创建；人工手工创建后也可要求其审核和登记。
 

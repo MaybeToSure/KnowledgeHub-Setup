@@ -18,9 +18,9 @@ Git、Git LFS、Codex 和 Obsidian为基础条件。GitHub 模式还需要 GitHu
 2. 选择 GitHub 私有实例或纯本地实例。
 3. GitHub 模式确认 `<owner>/<repo>` 属于采用者，且可见性为 private。
 4. 运行部署脚本。
-   新建实例必须显示 Framework `v0.5.1` / `0.5.1`；Existing 模式必须是 Framework `0.4.0` 或更高版本。
+   新建实例必须显示 Framework `v0.6.0` / `0.6.0`；Existing 模式必须是 Framework `0.4.0` 或更高版本。
 5. 验证 Git、Git LFS、目录结构和仓库健康。
-6. 推荐用 Obsidian 打开整个 `WorkspaceRoot`，再打开 `KnowledgeHub/_Dashboard/工作区总览.md`；只打开 KnowledgeHub 时无法使用跨仓库内部链接。
+6. 推荐用 Obsidian 打开整个 `WorkspaceRoot`，再打开 `KnowledgeHub/_Dashboard/工作区总览-自动生成.md`；只打开 KnowledgeHub 时无法使用跨仓库内部链接。
 7. 用 Codex 打开同一目录，以自然语言要求仓库内的 `knowledge-hub` Skill 整理资料。
 8. 新建“云飞随手记”专用 Codex 任务并打开同一目录；普通任务聊天不旁路记录。
 9. 阅读实例内的 `docs/整体机制.md` 和 `docs/独立仓库创建与驱动.md`，了解记录、知识、任务与项目边界。
@@ -35,7 +35,7 @@ Git、Git LFS、Codex 和 Obsidian为基础条件。GitHub 模式还需要 GitHu
 - 自动更新内部链接。
 - 链接格式使用相对路径。
 - 随手记 Markdown 位于 `00-Inbox/Human/Quick-Captures`，附件位于 `10-Sources/Attachments/Quick-Captures`，均可直接浏览和编辑。
-- 全局入口位于 `KnowledgeHub/_Dashboard/工作区总览.md`；`人工关注.md`由人工维护，生成器不得覆盖。
+- 仓库事实入口位于 `KnowledgeHub/_Dashboard/工作区总览-自动生成.md`；`工作区总览-手动维护.md` 由人工维护，生成器不得覆盖。
 
 ## 验收
 
